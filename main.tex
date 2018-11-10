@@ -78,7 +78,7 @@ Ist die Darstellung von Datensätzen mithilfe von mathematischen Tabellen
 Ein objektorientiertes Datenbankmodell verfolgt den Ansatz, Daten zusammen mit ihren Funktionen in einem Objekt zu speichern.
 \newpage
 \section{Modellierung}
-Zum Übertragen von Daten ist es notwendig Information und Interpretationsregeln festzulegen. Erst dann kann eine Infromationsanalyse durchgeführt werden.  
+Zum Übertragen von Daten ist es notwendig Information und Interpretationsregeln festzulegen. Erst dann kann eine Infromationsanalyse durchgeführt werden. Dafür müssen alle Sätze in semantisch irreduzible Sätze zerlegt werden. Ein Satz heißt semantisch irreduzibel, wenn er sich nicht ohne Informationsverlust in mehrere Sätze zerlegen lässt.
 \subsection{Objekte und Analyse}
 \subsubsection{Objekt- und Assoziationstyp}
 Ein Objekttyp repräsentiert die Menge aller Objekte, die die gleiche klassifizierende Bedingung erfüllen. 
@@ -170,12 +170,36 @@ $\rightarrow$ Im Ergebnis liegen alle Objekt- und Assoziationstypen entweder in 
     
     \item  Zerlegung strukturierter Objekttypen \\
     $\rightarrow$ Zerlege strukturierte Objekttypen in die beteiligten Objekttypen! Führe dies fort, bis die abgeleiteten Attribute aus nicht strukturierten Objekttypen abgeleitet sind. 
-    \item Zusammenfassung von Attributen/Relationen
+    
+    \item Zusammenfassung von Attributen/Relationen \\
     $\rightarrow$ Fasse Relationen, die sich aus denselben Objektrollen ableiten, zusammen! Fasse gleichnamige Attribute in einer Relation zusammen!
     
-    \item  
-    $\rightarrow$
+    \item Schlüsselkandidaten\\
+    $\rightarrow$ Ein Schlüsselkandidat liegt vor wenn:
+    \begin{enumerate}
+        \item Ein identifizierender innenliegender Objekttyp
+        \item Bei strukturierenden Objekttypen alle hergeleiteten Attribute gemeinsam einen SK
+        \item Für hergeleitete Attribute aus Objekttypen bilden alle Attribute gemeinsam ein SK
+        \item Falls keiner dieser vorhanden, so bilden alle Attribute gemeinsam einen SK
+    \end{enumerate} 
+    
+    \item Primärschlüssel \\
+    $\rightarrow$ 
+    Ein Primärschlüssel ist ein ausgewählter Schlüsselkandidat. Existieren in einer Relation mehrere Schlüsselkandidaten, so ist ein Schlüsselkandidat mit einem Mitgleidschaftsinterval 1:1 als Primärschlüssel auszuwählen. \\
+    $\rightarrow$ 
+    Kennzeichne alle Schlüsselkandidaten durch einfache Unterstreichung! Wähle die Primäschlüssel aus - kennzeichne sie durch doppelte Unterstreichung!
+    
+    \item Fremdschlüssel \\
+    $\rightarrow$ Beziehungen zwischen Zusammenhangskomponenten sind durch Fremdschlüssel darzustellen. Dies können Objekt-Assoziationstyp Beziehungen wie auch Ober-Untertyp Beziehungen sein. Es gilt:
+    \begin{enumerate}
+        \item Objekt-Assoziationstyp: Assoziation referenziert Objekttypen. Attribut ist Fremdschlüssel auf Primärschlüssel oder beliebigen Schlüsselkandidaten.
+        \item Obertyp-Untertyp: Untertyp referenziert Obertyp. Namenskonvention/Repräsentatoin ist der Fremdschlüssel auf Primärschlüssel oder beliebigen Schlüsselkandidaten.
+        \item Sonderfall: Referenziertem Schlüsselkandidaten aus mehreren Attributen:
+        $\rightarrow$ Fremdschlüssel in 2 Fremdschlüsselattribute aufteilen
+    \end{enumerate}
+    $\rightarrow$ Erzeuge für alle Beziehungen zwischen Zusammenhangskomponenten eine Fremdschlüsselbeziehungen!
 \end{enumerate}
+$\rightarrow$ Erzeuge für alle Beziehungen zwischen Zusammenhangskomponenten eine Fremdschlüsselbezihungen!
 \newpage
 \section{Relationale Datenbank}
 \subsection{Transaktion}
@@ -186,7 +210,7 @@ TODO
 \subsection{Transaktion ACID}
 \begin{itemize}
     \item A - Atomicity (Atomizität) \newline
-    $\rightarrow$ Alles oder nichts! Eine Transakton wird ganz der garnicht bearbeitet
+    $\rightarrow$ Alles oder nichts! Eine Transakton wird ganz oder garnicht bearbeitet
     \item C - Consistency (Konsistenz) \newline
     $\rightarrow$
     \item I - Isolation (Isolierung) \newline
@@ -196,7 +220,21 @@ TODO
 \end{itemize}
 \subsection{Lock und Deadlock}
 Zwischen den parallelen Transaktionen (verschiedener Benutzer) läuft eine pessimistische (vorbeugende) Synchronisation, die durch Sperren die Verzahnung der verschiedenen ändernden Zugriffe kontolliert, so dass die Transaktionsprinzipien garantiert werden können.
-
-
-
+\newpage    
+\section{SQL}
+\subsection{DDL}
+= Data Definition Language (Befehle zur Definition von Tabellen und anderer Datenstrukturen)
+\subsection{DML}
+Data Maniopulation Language (Befehle zur Datenmanipulation und Datenabfrage)
+\subsubsection{SELECT}
+\begin{verbatim}
+    SELECT [FIRNR], [FIRUSER], [FIRTYP] FROM [dbo].[FIRMA];
+\end{verbatim}
+Diese Statement liefert alle Firmen, den jeweiligen Primärschlüssel, Firmenbezeichnung und Firmentyp, zurück
+\subsubsection{INSERT}
+\begin{verbatim}
+INSERT INTO 
+[dbo].[FIRMA]([FIRNR], [FIRUSER], [FIRTYP]) 
+VALUES (1,'Musterfirma GmbH',0);
+\end{verbatim}
 \end{document}
